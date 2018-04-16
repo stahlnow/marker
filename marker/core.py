@@ -32,27 +32,30 @@ def get_tldr_common_marks_path():
 
 
 def mark_command(cmd_string, alias):
-    ''' Adding a new Mark '''
-    if cmd_string:
-        cmd_string = cmd_string.strip()
-    if not cmd_string:
-        cmd_string = keyboard_input("Command:")
-    else:
-        print("command: %s" % cmd_string)
-    if not cmd_string:
-        print ("command field is required")
-        return
-    if not alias:
-        alias = keyboard_input("Alias?:")
-    else:
-        print("alias: %s" % alias)
-    if '##' in cmd_string or '##' in alias:
-        # ## isn't allowed since it's used as seperator
-        print ("command can't contain ##(it's used as command alias seperator)")
-        return        
-    commands = command.load(get_user_marks_path())
-    command.add(commands, command.Command(cmd_string, alias))
-    command.save(commands, get_user_marks_path())
+    try:
+        ''' Adding a new Mark '''
+        if cmd_string:
+            cmd_string = cmd_string.strip()
+        if not cmd_string:
+            cmd_string = keyboard_input("Command:")
+        else:
+            print("command: %s" % cmd_string)
+        if not cmd_string:
+            print ("command field is required")
+            return
+        if not alias:
+            alias = keyboard_input("Alias?:")
+        else:
+            print("alias: %s" % alias)
+        if '##' in cmd_string or '##' in alias:
+            # ## isn't allowed since it's used as seperator
+            print ("command can't contain ##(it's used as command alias seperator)")
+            return        
+        commands = command.load(get_user_marks_path())
+        command.add(commands, command.Command(cmd_string, alias))
+        command.save(commands, get_user_marks_path())
+    except KeyboardInterrupt:
+        pass
 
 def get_selected_command_or_input(search):
     ''' Display an interactive UI interface where the user can type and select commands
